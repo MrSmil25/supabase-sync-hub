@@ -197,6 +197,7 @@ function IndividualDetailPage() {
                 {meta?.label ?? individual.primary_role}
               </Badge>
               {individual.is_archived && <Badge variant="secondary">Diarsipkan</Badge>}
+              <RelationshipBadge status={relStatus} />
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {individual.email && (
