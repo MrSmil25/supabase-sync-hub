@@ -132,7 +132,11 @@ function CompanyDetailPage() {
           )}
           {company.notes && <p className="max-w-xl text-sm">{company.notes}</p>}
         </div>
-        <div className="flex items-start gap-2">
+        <div className="flex flex-wrap items-start gap-2">
+          <LogInteractionButton
+            target={{ kind: "company", id: company.id, name: company.name }}
+            autoOpen={!!autoLog}
+          />
           <Button variant="outline" onClick={() => setEditOpen(true)}>
             <Pencil className="size-4" /> Edit
           </Button>
