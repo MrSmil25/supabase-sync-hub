@@ -33,7 +33,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 
 type WizardProps = { open: boolean; onOpenChange: (v: boolean) => void };
 
@@ -867,19 +866,3 @@ function ChipInput({
   );
 }
 
-// Re-export agar halaman lain tidak perlu import langsung dari supabase untuk upload.
-export { uploadBusinessCard };
-
-// Dipakai di halaman detail untuk ganti kartu nama.
-export async function saveBusinessCardFile(individualId: string, file: File): Promise<string> {
-  const url = await uploadBusinessCard(file);
-  const { error } = await supabase
-    .from("individuals")
-    .update({ business_card_url: url, updated_at: new Date().toISOString() })
-    .eq("id", individualId);
-  if (error) throw error;
-  return url;
-}
-
-// Checkbox re-export agar tidak unused
-export { Checkbox };
