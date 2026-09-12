@@ -48,6 +48,8 @@ import {
   ChartNoAxesCombined,
   ChevronDown,
   ChevronRight,
+  Network,
+  ContactRound,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase-external";
@@ -138,6 +140,14 @@ const navSections: NavSection[] = [
       { to: "/companies", label: "Perusahaan", icon: Building2 },
       { to: "/pipeline", label: "Pipeline", icon: KanbanSquare },
       { to: "/mous", label: "MoU", icon: FileSignature },
+    ],
+  },
+  {
+    key: "PEMANGKU_KEPENTINGAN",
+    label: "PEMANGKU KEPENTINGAN",
+    items: [
+      { to: "/stakeholders", label: "Peta Pemangku Kepentingan", icon: Network },
+      { to: "/stakeholders/individuals", label: "Individuals", icon: ContactRound },
     ],
   },
   {
