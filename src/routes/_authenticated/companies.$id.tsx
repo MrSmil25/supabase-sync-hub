@@ -32,6 +32,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/companies/$id")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    log: search["log"] === "1" || search["log"] === true ? true : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Detail Perusahaan — OrgTool" },
