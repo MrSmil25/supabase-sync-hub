@@ -15,12 +15,23 @@ import {
   nameInitials,
 } from "@/lib/stakeholders";
 import { QuickAddWizard } from "@/components/stakeholders/QuickAddWizard";
+import {
+  LEVEL_META,
+  RELATIONSHIP_LEVELS,
+  fetchAllCompanyStatuses,
+  fetchAllIndividualStatuses,
+} from "@/lib/interactions";
+import { RelationshipBadge } from "@/components/stakeholders/RelationshipBadge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_authenticated/stakeholders/")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    level: typeof search["level"] === "string" ? (search["level"] as string) : undefined,
+    cat: typeof search["cat"] === "string" ? (search["cat"] as string) : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Peta Pemangku Kepentingan" },
@@ -33,11 +44,23 @@ export const Route = createFileRoute("/_authenticated/stakeholders/")({
 type KindFilter = "all" | "company" | "individual";
 
 function StakeholdersPage() {
+  const { level: levelParam, cat: catParam } = Route.useSearch();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [kind, setKind] = useState<KindFilter>("all");
   const [search, setSearch] = useState("");
-  const [catFilter, setCatFilter] = useState<string[]>([]);
-  const [roleFilter, setRoleFilter] = useState<string[]>([]);
+  const [catFilter, setCatFilter] = useState<string[]>(catParam ? [catParam] : []);
+  const [roleFilter, setRoleFilter] = useState<string[]>(catParam ? [catParam] : []);
+  const [levelFilter, setLevelFilter] = useState<string[]>(levelParam ? [levelParam] : []);
+
+  const { data: companyStatuses } = useQuery({
+    queryKey: ["relationship-statuses", "companies"],
+    queryFn: fetchAllCompanyStatuses,
+  });
+  const { data: individualStatuses } = useQuery({
+    queryKey: ["relationship-statuses", "individuals"],
+    queryFn: fetchAllIndividualStatuses,
+  });
+
 
   const { data: companies = [] } = useQuery({
     queryKey: ["stakeholders", "companies"],
@@ -59,15 +82,20 @@ function StakeholdersPage() {
   }, [primaryAffs]);
 
   const q = search.trim().toLowerCase();
+  const matchLevel = (lvl: string | null | undefined) =>
+    levelFilter.length === 0 || (lvl != null && levelFilter.includes(lvl));
+
   const filteredCompanies = useMemo(
     () =>
       companies.filter(
         (c) =>
           (kind !== "individual") &&
           (catFilter.length === 0 || (c.stakeholder_category && catFilter.includes(c.stakeholder_category))) &&
+          matchLevel(companyStatuses?.get(c.id)?.relationship_level) &&
           (!q || [c.name, c.city, c.industry].some((v) => v?.toLowerCase().includes(q))),
       ),
-    [companies, kind, catFilter, q],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [companies, kind, catFilter, q, levelFilter, companyStatuses],
   );
   const filteredIndividuals = useMemo(
     () =>
@@ -75,13 +103,30 @@ function StakeholdersPage() {
         (i) =>
           kind !== "company" &&
           (roleFilter.length === 0 || roleFilter.includes(i.primary_role)) &&
+          matchLevel(individualStatuses?.get(i.id)?.relationship_level) &&
           (!q ||
             [i.full_name, i.nickname, i.email, i.phone, i.areas_of_expertise, ...(i.tags ?? [])].some((v) =>
               v?.toLowerCase().includes(q),
             )),
       ),
-    [individuals, kind, roleFilter, q],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [individuals, kind, roleFilter, q, levelFilter, individualStatuses],
   );
+
+  const levelCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const l of RELATIONSHIP_LEVELS) counts[l] = 0;
+    for (const c of companies) {
+      const l = companyStatuses?.get(c.id)?.relationship_level;
+      if (l) counts[l] = (counts[l] ?? 0) + 1;
+    }
+    for (const i of individuals) {
+      const l = individualStatuses?.get(i.id)?.relationship_level;
+      if (l) counts[l] = (counts[l] ?? 0) + 1;
+    }
+    return counts;
+  }, [companies, individuals, companyStatuses, individualStatuses]);
+  const levelTotal = RELATIONSHIP_LEVELS.reduce((s, l) => s + (levelCounts[l] ?? 0), 0);
 
   const total = filteredCompanies.length + filteredIndividuals.length;
   const addedThisMonth = useMemo(() => {

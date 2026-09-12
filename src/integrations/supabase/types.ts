@@ -2132,6 +2132,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "deals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_relationship_status"
+            referencedColumns: ["company_id"]
+          },
+          {
             foreignKeyName: "deals_event_id_fkey"
             columns: ["event_id"]
             isOneToOne: false
@@ -3450,6 +3457,20 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "individual_affiliations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_relationship_status"
+            referencedColumns: ["company_id"]
+          },
+          {
+            foreignKeyName: "individual_affiliations_individual_id_fkey"
+            columns: ["individual_id"]
+            isOneToOne: false
+            referencedRelation: "individual_relationship_status"
+            referencedColumns: ["individual_id"]
+          },
+          {
             foreignKeyName: "individual_affiliations_individual_id_fkey"
             columns: ["individual_id"]
             isOneToOne: false
@@ -3690,6 +3711,164 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "workload_distribution"
             referencedColumns: ["member_id"]
+          },
+        ]
+      }
+      interactions: {
+        Row: {
+          channel: Database["public"]["Enums"]["interaction_channel"]
+          company_id: string | null
+          created_at: string | null
+          details: string | null
+          direction: Database["public"]["Enums"]["interaction_direction"] | null
+          id: string
+          individual_id: string | null
+          interaction_date: string
+          interaction_time: string | null
+          is_archived: boolean
+          logged_by: string
+          next_step: string | null
+          next_step_date: string | null
+          outcome: string | null
+          people_id: string | null
+          related_deal_id: string | null
+          related_event_id: string | null
+          sentiment: string | null
+          summary: string
+          updated_at: string | null
+        }
+        Insert: {
+          channel?: Database["public"]["Enums"]["interaction_channel"]
+          company_id?: string | null
+          created_at?: string | null
+          details?: string | null
+          direction?:
+            | Database["public"]["Enums"]["interaction_direction"]
+            | null
+          id?: string
+          individual_id?: string | null
+          interaction_date?: string
+          interaction_time?: string | null
+          is_archived?: boolean
+          logged_by: string
+          next_step?: string | null
+          next_step_date?: string | null
+          outcome?: string | null
+          people_id?: string | null
+          related_deal_id?: string | null
+          related_event_id?: string | null
+          sentiment?: string | null
+          summary: string
+          updated_at?: string | null
+        }
+        Update: {
+          channel?: Database["public"]["Enums"]["interaction_channel"]
+          company_id?: string | null
+          created_at?: string | null
+          details?: string | null
+          direction?:
+            | Database["public"]["Enums"]["interaction_direction"]
+            | null
+          id?: string
+          individual_id?: string | null
+          interaction_date?: string
+          interaction_time?: string | null
+          is_archived?: boolean
+          logged_by?: string
+          next_step?: string | null
+          next_step_date?: string | null
+          outcome?: string | null
+          people_id?: string | null
+          related_deal_id?: string | null
+          related_event_id?: string | null
+          sentiment?: string | null
+          summary?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interactions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_relationship_status"
+            referencedColumns: ["company_id"]
+          },
+          {
+            foreignKeyName: "interactions_individual_id_fkey"
+            columns: ["individual_id"]
+            isOneToOne: false
+            referencedRelation: "individual_relationship_status"
+            referencedColumns: ["individual_id"]
+          },
+          {
+            foreignKeyName: "interactions_individual_id_fkey"
+            columns: ["individual_id"]
+            isOneToOne: false
+            referencedRelation: "individuals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "design_workload"
+            referencedColumns: ["designer_id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "member_holdings"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "member_progress"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "workload_distribution"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "interactions_people_id_fkey"
+            columns: ["people_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_related_deal_id_fkey"
+            columns: ["related_deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_related_event_id_fkey"
+            columns: ["related_event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -4427,6 +4606,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "mous_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_relationship_status"
+            referencedColumns: ["company_id"]
+          },
+          {
             foreignKeyName: "mous_deal_id_fkey"
             columns: ["deal_id"]
             isOneToOne: false
@@ -4816,6 +5002,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "companies"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "people_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_relationship_status"
+            referencedColumns: ["company_id"]
           },
         ]
       }
@@ -5340,6 +5533,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "companies"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "speakers_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_relationship_status"
+            referencedColumns: ["company_id"]
           },
           {
             foreignKeyName: "speakers_contact_person_id_fkey"
@@ -6195,6 +6395,32 @@ export type Database = {
           },
         ]
       }
+      company_relationship_status: {
+        Row: {
+          company_id: string | null
+          days_since_last: number | null
+          interactions_90d: number | null
+          last_interaction_date: string | null
+          name: string | null
+          owner_division: string | null
+          relationship_level:
+            | Database["public"]["Enums"]["relationship_level"]
+            | null
+          stakeholder_category:
+            | Database["public"]["Enums"]["stakeholder_category"]
+            | null
+          total_interactions: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "companies_owner_division_fkey"
+            columns: ["owner_division"]
+            isOneToOne: false
+            referencedRelation: "divisions"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       content_balance: {
         Row: {
           aktual_persen: number | null
@@ -6270,6 +6496,66 @@ export type Database = {
           total_saldo: number | null
         }
         Relationships: []
+      }
+      individual_relationship_status: {
+        Row: {
+          days_since_last: number | null
+          full_name: string | null
+          individual_id: string | null
+          interactions_90d: number | null
+          last_interaction_date: string | null
+          owner_division: string | null
+          owner_person_id: string | null
+          primary_role: Database["public"]["Enums"]["individual_role"] | null
+          relationship_level:
+            | Database["public"]["Enums"]["relationship_level"]
+            | null
+          total_interactions: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "individuals_owner_division_fkey"
+            columns: ["owner_division"]
+            isOneToOne: false
+            referencedRelation: "divisions"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "individuals_owner_person_id_fkey"
+            columns: ["owner_person_id"]
+            isOneToOne: false
+            referencedRelation: "design_workload"
+            referencedColumns: ["designer_id"]
+          },
+          {
+            foreignKeyName: "individuals_owner_person_id_fkey"
+            columns: ["owner_person_id"]
+            isOneToOne: false
+            referencedRelation: "member_holdings"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "individuals_owner_person_id_fkey"
+            columns: ["owner_person_id"]
+            isOneToOne: false
+            referencedRelation: "member_progress"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "individuals_owner_person_id_fkey"
+            columns: ["owner_person_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "individuals_owner_person_id_fkey"
+            columns: ["owner_person_id"]
+            isOneToOne: false
+            referencedRelation: "workload_distribution"
+            referencedColumns: ["member_id"]
+          },
+        ]
       }
       member_holdings: {
         Row: {
@@ -6483,6 +6769,69 @@ export type Database = {
         }
         Relationships: []
       }
+      stakeholders_going_cold: {
+        Row: {
+          category: string | null
+          days_since_last: number | null
+          last_interaction_date: string | null
+          level: string | null
+          link: string | null
+          target_id: string | null
+          target_name: string | null
+          target_type: string | null
+        }
+        Relationships: []
+      }
+      upcoming_followups: {
+        Row: {
+          days_from_today: number | null
+          interaction_id: string | null
+          logged_by: string | null
+          next_step: string | null
+          next_step_date: string | null
+          previous_summary: string | null
+          target_link: string | null
+          target_name: string | null
+          target_type: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "design_workload"
+            referencedColumns: ["designer_id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "member_holdings"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "member_progress"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_logged_by_fkey"
+            columns: ["logged_by"]
+            isOneToOne: false
+            referencedRelation: "workload_distribution"
+            referencedColumns: ["member_id"]
+          },
+        ]
+      }
       workload_distribution: {
         Row: {
           beban_aktif: number | null
@@ -6516,6 +6865,13 @@ export type Database = {
       can_access_event: { Args: { target_event: string }; Returns: boolean }
       claim_invite: { Args: { p_code: string }; Returns: string }
       close_expired_proposals: { Args: never; Returns: undefined }
+      compute_relationship_level: {
+        Args: {
+          p_interaction_count_90d: number
+          p_last_interaction_date: string
+        }
+        Returns: Database["public"]["Enums"]["relationship_level"]
+      }
       create_design_request_from_content: {
         Args: {
           p_content_id: string
@@ -6647,6 +7003,7 @@ export type Database = {
         }[]
       }
       remind_content_and_design: { Args: never; Returns: undefined }
+      remind_stakeholder_actions: { Args: never; Returns: undefined }
       remind_stale_tasks: { Args: never; Returns: undefined }
       restore_record: {
         Args: { p_record_id: string; p_table: string }
@@ -6810,6 +7167,20 @@ export type Database = {
         | "Kolega_Organisasi"
         | "Korporat"
         | "Lainnya"
+      interaction_channel:
+        | "Tatap_Muka"
+        | "WhatsApp"
+        | "Email"
+        | "Telepon"
+        | "Video_Call"
+        | "Instagram_DM"
+        | "LinkedIn"
+        | "Event"
+        | "Lainnya"
+      interaction_direction:
+        | "Kita_Menghubungi"
+        | "Mereka_Menghubungi"
+        | "Bertemu_Kebetulan"
       invite_kind: "Kode_Divisi" | "Link_Personal"
       letter_approval:
         | "Auto_Approved"
@@ -7172,6 +7543,22 @@ export const Constants = {
         "Kolega_Organisasi",
         "Korporat",
         "Lainnya",
+      ],
+      interaction_channel: [
+        "Tatap_Muka",
+        "WhatsApp",
+        "Email",
+        "Telepon",
+        "Video_Call",
+        "Instagram_DM",
+        "LinkedIn",
+        "Event",
+        "Lainnya",
+      ],
+      interaction_direction: [
+        "Kita_Menghubungi",
+        "Mereka_Menghubungi",
+        "Bertemu_Kebetulan",
       ],
       invite_kind: ["Kode_Divisi", "Link_Personal"],
       letter_approval: [

@@ -19,6 +19,10 @@ import { CompanyFormDialog } from "@/components/companies/CompanyFormDialog";
 import { ContactFormDialog } from "@/components/companies/ContactFormDialog";
 import { CompanyDealsTab } from "@/components/deals/CompanyDealsTab";
 import { CompanyMousTab } from "@/components/mous/CompanyMousTab";
+import { fetchCompanyInteractions, fetchCompanyStatus } from "@/lib/interactions";
+import { RelationshipBadge } from "@/components/stakeholders/RelationshipBadge";
+import { LogInteractionButton } from "@/components/stakeholders/LogInteractionButton";
+import { InteractionTimeline } from "@/components/stakeholders/InteractionTimeline";
 
 import { ArchiveToggle } from "@/components/archive/ArchiveToggle";
 import { ArchiveMenu } from "@/components/archive/ArchiveMenu";
@@ -28,6 +32,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/companies/$id")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    log: search["log"] === "1" || search["log"] === true ? true : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Detail Perusahaan — OrgTool" },
@@ -56,6 +63,15 @@ function CompanyDetailPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [editingPerson, setEditingPerson] = useState<Person | null>(null);
+  const { log: autoLog } = Route.useSearch();
+  const { data: relStatus } = useQuery({
+    queryKey: ["relationship-status", "company", id],
+    queryFn: () => fetchCompanyStatus(id),
+  });
+  const { data: companyLog } = useQuery({
+    queryKey: ["interactions", "company", id],
+    queryFn: () => fetchCompanyInteractions(id),
+  });
 
   async function removePerson(person: Person) {
     if (!window.confirm(`Hapus kontak ${person.full_name}?`)) return;
@@ -97,6 +113,7 @@ function CompanyDetailPage() {
             <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${STATUS_META[company.overall_status]?.className ?? ""}`}>
               {STATUS_META[company.overall_status]?.label ?? company.overall_status}
             </span>
+            <RelationshipBadge status={relStatus} />
           </div>
           <div className="text-sm text-muted-foreground">
             {company.industry && <span>{company.industry} · </span>}
@@ -115,7 +132,11 @@ function CompanyDetailPage() {
           )}
           {company.notes && <p className="max-w-xl text-sm">{company.notes}</p>}
         </div>
-        <div className="flex items-start gap-2">
+        <div className="flex flex-wrap items-start gap-2">
+          <LogInteractionButton
+            target={{ kind: "company", id: company.id, name: company.name }}
+            autoOpen={!!autoLog}
+          />
           <Button variant="outline" onClick={() => setEditOpen(true)}>
             <Pencil className="size-4" /> Edit
           </Button>
@@ -135,6 +156,7 @@ function CompanyDetailPage() {
           <TabsTrigger value="kontak">Kontak</TabsTrigger>
           <TabsTrigger value="deal">Deal</TabsTrigger>
           <TabsTrigger value="mou">MoU</TabsTrigger>
+          <TabsTrigger value="interaksi">Log Interaksi</TabsTrigger>
         </TabsList>
 
         <TabsContent value="kontak" className="space-y-4">
@@ -228,6 +250,18 @@ function CompanyDetailPage() {
         <TabsContent value="mou">
           <CompanyMousTab companyId={id} />
         </TabsContent>
+        <TabsContent value="interaksi" className="mt-4">
+          <InteractionTimeline
+            interactions={companyLog?.items ?? []}
+            target={{ kind: "company", id: company.id, name: company.name }}
+            labelFor={(i) =>
+              i.people_id
+                ? (companyLog?.peopleNames[i.people_id] ?? "Kontak")
+                : company.name
+            }
+          />
+        </TabsContent>
+
 
       </Tabs>
 

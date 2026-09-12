@@ -33,6 +33,13 @@ import {
   waLink,
 } from "@/lib/stakeholders";
 import { supabase } from "@/lib/supabase-external";
+import {
+  fetchIndividualInteractions,
+  fetchIndividualStatus,
+} from "@/lib/interactions";
+import { RelationshipBadge } from "@/components/stakeholders/RelationshipBadge";
+import { LogInteractionButton } from "@/components/stakeholders/LogInteractionButton";
+import { InteractionTimeline } from "@/components/stakeholders/InteractionTimeline";
 import { IndividualEditDialog } from "@/components/stakeholders/IndividualEditDialog";
 import { AffiliationFormDialog } from "@/components/stakeholders/AffiliationFormDialog";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +55,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/stakeholders/individuals/$id")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    log: search["log"] === "1" || search["log"] === true ? true : undefined,
+  }),
   head: () => ({
     meta: [{ title: "Detail Individual — Pemangku Kepentingan" }],
   }),
@@ -78,6 +88,16 @@ function IndividualDetailPage() {
     queryKey: ["affiliations", id],
     queryFn: () => fetchAffiliations(id),
   });
+  const { log: autoLog } = Route.useSearch();
+  const { data: relStatus } = useQuery({
+    queryKey: ["relationship-status", "individual", id],
+    queryFn: () => fetchIndividualStatus(id),
+  });
+  const { data: interactions = [] } = useQuery({
+    queryKey: ["interactions", "individual", id],
+    queryFn: () => fetchIndividualInteractions(id),
+  });
+
 
   if (isLoading) {
     return <div className="py-16 text-center text-sm text-muted-foreground">Memuat…</div>;
@@ -177,6 +197,7 @@ function IndividualDetailPage() {
                 {meta?.label ?? individual.primary_role}
               </Badge>
               {individual.is_archived && <Badge variant="secondary">Diarsipkan</Badge>}
+              <RelationshipBadge status={relStatus} />
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {individual.email && (
@@ -206,7 +227,11 @@ function IndividualDetailPage() {
               )}
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <LogInteractionButton
+              target={{ kind: "individual", id: individual.id, name: individual.full_name }}
+              autoOpen={!!autoLog}
+            />
             <Button variant="outline" onClick={() => setEditOpen(true)}>
               <Pencil className="size-4" /> Edit
             </Button>
@@ -382,12 +407,10 @@ function IndividualDetailPage() {
         </TabsContent>
 
         <TabsContent value="riwayat" className="mt-4">
-          <Card>
-            <CardContent className="py-12 text-center text-sm text-muted-foreground">
-              Log interaksi akan tersedia di tahap berikutnya. Untuk sementara, catatan strategis bisa
-              disimpan di tab Tentang.
-            </CardContent>
-          </Card>
+          <InteractionTimeline
+            interactions={interactions}
+            target={{ kind: "individual", id: individual.id, name: individual.full_name }}
+          />
         </TabsContent>
       </Tabs>
 
