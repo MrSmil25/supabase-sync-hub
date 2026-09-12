@@ -81,6 +81,16 @@ function IndividualDetailPage() {
     queryKey: ["affiliations", id],
     queryFn: () => fetchAffiliations(id),
   });
+  const { log: autoLog } = Route.useSearch();
+  const { data: relStatus } = useQuery({
+    queryKey: ["relationship-status", "individual", id],
+    queryFn: () => fetchIndividualStatus(id),
+  });
+  const { data: interactions = [] } = useQuery({
+    queryKey: ["interactions", "individual", id],
+    queryFn: () => fetchIndividualInteractions(id),
+  });
+
 
   if (isLoading) {
     return <div className="py-16 text-center text-sm text-muted-foreground">Memuat…</div>;
