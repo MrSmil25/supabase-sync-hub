@@ -250,6 +250,18 @@ function CompanyDetailPage() {
         <TabsContent value="mou">
           <CompanyMousTab companyId={id} />
         </TabsContent>
+        <TabsContent value="interaksi" className="mt-4">
+          <InteractionTimeline
+            interactions={companyLog?.items ?? []}
+            target={{ kind: "company", id: company.id, name: company.name }}
+            labelFor={(i) =>
+              i.people_id
+                ? (companyLog?.peopleNames[i.people_id] ?? "Kontak")
+                : company.name
+            }
+          />
+        </TabsContent>
+
 
       </Tabs>
 
