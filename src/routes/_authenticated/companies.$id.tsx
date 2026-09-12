@@ -113,6 +113,7 @@ function CompanyDetailPage() {
             <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${STATUS_META[company.overall_status]?.className ?? ""}`}>
               {STATUS_META[company.overall_status]?.label ?? company.overall_status}
             </span>
+            <RelationshipBadge status={relStatus} />
           </div>
           <div className="text-sm text-muted-foreground">
             {company.industry && <span>{company.industry} · </span>}
