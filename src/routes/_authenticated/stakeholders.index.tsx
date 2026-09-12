@@ -44,11 +44,23 @@ export const Route = createFileRoute("/_authenticated/stakeholders/")({
 type KindFilter = "all" | "company" | "individual";
 
 function StakeholdersPage() {
+  const { level: levelParam, cat: catParam } = Route.useSearch();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [kind, setKind] = useState<KindFilter>("all");
   const [search, setSearch] = useState("");
-  const [catFilter, setCatFilter] = useState<string[]>([]);
-  const [roleFilter, setRoleFilter] = useState<string[]>([]);
+  const [catFilter, setCatFilter] = useState<string[]>(catParam ? [catParam] : []);
+  const [roleFilter, setRoleFilter] = useState<string[]>(catParam ? [catParam] : []);
+  const [levelFilter, setLevelFilter] = useState<string[]>(levelParam ? [levelParam] : []);
+
+  const { data: companyStatuses } = useQuery({
+    queryKey: ["relationship-statuses", "companies"],
+    queryFn: fetchAllCompanyStatuses,
+  });
+  const { data: individualStatuses } = useQuery({
+    queryKey: ["relationship-statuses", "individuals"],
+    queryFn: fetchAllIndividualStatuses,
+  });
+
 
   const { data: companies = [] } = useQuery({
     queryKey: ["stakeholders", "companies"],
