@@ -407,12 +407,10 @@ function IndividualDetailPage() {
         </TabsContent>
 
         <TabsContent value="riwayat" className="mt-4">
-          <Card>
-            <CardContent className="py-12 text-center text-sm text-muted-foreground">
-              Log interaksi akan tersedia di tahap berikutnya. Untuk sementara, catatan strategis bisa
-              disimpan di tab Tentang.
-            </CardContent>
-          </Card>
+          <InteractionTimeline
+            interactions={interactions}
+            target={{ kind: "individual", id: individual.id, name: individual.full_name }}
+          />
         </TabsContent>
       </Tabs>
 
