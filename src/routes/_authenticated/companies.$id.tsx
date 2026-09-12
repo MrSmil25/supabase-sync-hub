@@ -19,6 +19,10 @@ import { CompanyFormDialog } from "@/components/companies/CompanyFormDialog";
 import { ContactFormDialog } from "@/components/companies/ContactFormDialog";
 import { CompanyDealsTab } from "@/components/deals/CompanyDealsTab";
 import { CompanyMousTab } from "@/components/mous/CompanyMousTab";
+import { fetchCompanyInteractions, fetchCompanyStatus } from "@/lib/interactions";
+import { RelationshipBadge } from "@/components/stakeholders/RelationshipBadge";
+import { LogInteractionButton } from "@/components/stakeholders/LogInteractionButton";
+import { InteractionTimeline } from "@/components/stakeholders/InteractionTimeline";
 
 import { ArchiveToggle } from "@/components/archive/ArchiveToggle";
 import { ArchiveMenu } from "@/components/archive/ArchiveMenu";
