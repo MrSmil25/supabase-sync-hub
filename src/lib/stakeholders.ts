@@ -279,6 +279,14 @@ export async function updateIndividual(id: string, input: Partial<IndividualInpu
   if (error) throw error;
 }
 
+export async function setIndividualArchived(id: string, archived: boolean) {
+  const { error } = await supabase
+    .from("individuals")
+    .update({ is_archived: archived, updated_at: new Date().toISOString() })
+    .eq("id", id);
+  if (error) throw error;
+}
+
 export async function addAffiliation(input: {
   individual_id: string;
   company_id: string;
