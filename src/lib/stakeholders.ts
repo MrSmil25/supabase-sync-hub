@@ -374,3 +374,97 @@ export function expertiseChips(value?: string | null): string[] {
     .map((s) => s.trim())
     .filter(Boolean);
 }
+
+// ---------------------------------------------------------------------------
+// Companies sebagai pemangku kepentingan
+// ---------------------------------------------------------------------------
+
+export type StakeholderCompany = {
+  id: string;
+  name: string;
+  stakeholder_category: StakeholderCategory | null;
+  city: string | null;
+  industry: string | null;
+  first_met_date: string | null;
+  is_archived: boolean;
+  created_at: string;
+};
+
+/** Companies yang punya stakeholder_category (lapisan strategis di atas CRM). */
+export async function fetchStakeholderCompanies(): Promise<StakeholderCompany[]> {
+  const { data, error } = await supabase
+    .from("companies")
+    .select("id,name,stakeholder_category,city,industry,first_met_date,is_archived,created_at")
+    .not("stakeholder_category", "is", null)
+    .eq("is_archived", false)
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as unknown as StakeholderCompany[];
+}
+
+const CATEGORY_TO_COMPANY_TYPE: Record<StakeholderCategory, string> = {
+  Kampus: "Institutional",
+  Sponsor: "Sponsor",
+  Alumni_Institusi: "Institutional",
+  Media: "Media",
+  Komunitas: "Institutional",
+  Pemerintah: "Institutional",
+  Vendor: "Vendor",
+  Organisasi_Sejenis: "Institutional",
+  Lainnya: "Institutional",
+};
+
+/** Tambah cepat perusahaan/institusi dari wizard. */
+export async function createStakeholderCompany(input: {
+  name: string;
+  stakeholder_category: StakeholderCategory;
+  city?: string | null;
+}): Promise<{ id: string }> {
+  const { data: userData } = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from("companies")
+    .insert({
+      name: input.name,
+      stakeholder_category: input.stakeholder_category,
+      type: CATEGORY_TO_COMPANY_TYPE[input.stakeholder_category],
+      city: input.city ?? null,
+      created_by: userData.user?.id ?? null,
+    } as never)
+    .select("id")
+    .single();
+  if (error) throw error;
+  return data as unknown as { id: string };
+}
+
+// ---------------------------------------------------------------------------
+// Statistik dashboard
+// ---------------------------------------------------------------------------
+
+export async function countStakeholdersAddedSince(days: number): Promise<number> {
+  const since = new Date(Date.now() - days * 86400000).toISOString();
+  const sinceDate = since.slice(0, 10);
+  const [ind, comp] = await Promise.all([
+    supabase
+      .from("individuals")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", since),
+    supabase
+      .from("companies")
+      .select("id", { count: "exact", head: true })
+      .not("stakeholder_category", "is", null)
+      .gte("first_met_date", sinceDate),
+  ]);
+  if (ind.error) throw ind.error;
+  if (comp.error) throw comp.error;
+  return (ind.count ?? 0) + (comp.count ?? 0);
+}
+
+export async function countIndividualsWithoutPic(): Promise<number> {
+  const { count, error } = await supabase
+    .from("individuals")
+    .select("id", { count: "exact", head: true })
+    .is("owner_person_id", null)
+    .eq("is_archived", false);
+  if (error) throw error;
+  return count ?? 0;
+}
