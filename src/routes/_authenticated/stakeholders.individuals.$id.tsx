@@ -227,7 +227,11 @@ function IndividualDetailPage() {
               )}
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <LogInteractionButton
+              target={{ kind: "individual", id: individual.id, name: individual.full_name }}
+              autoOpen={!!autoLog}
+            />
             <Button variant="outline" onClick={() => setEditOpen(true)}>
               <Pencil className="size-4" /> Edit
             </Button>
