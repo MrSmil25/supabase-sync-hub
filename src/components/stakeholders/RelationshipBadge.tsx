@@ -3,7 +3,12 @@ import { id as localeId } from "date-fns/locale";
 import { Flame } from "lucide-react";
 import { LEVEL_META, type RelationshipStatus } from "@/lib/interactions";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /** Badge tingkat hubungan dengan tooltip ringkas. */
 export function RelationshipBadge({
