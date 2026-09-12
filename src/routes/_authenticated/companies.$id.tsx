@@ -63,6 +63,15 @@ function CompanyDetailPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [editingPerson, setEditingPerson] = useState<Person | null>(null);
+  const { log: autoLog } = Route.useSearch();
+  const { data: relStatus } = useQuery({
+    queryKey: ["relationship-status", "company", id],
+    queryFn: () => fetchCompanyStatus(id),
+  });
+  const { data: companyLog } = useQuery({
+    queryKey: ["interactions", "company", id],
+    queryFn: () => fetchCompanyInteractions(id),
+  });
 
   async function removePerson(person: Person) {
     if (!window.confirm(`Hapus kontak ${person.full_name}?`)) return;
