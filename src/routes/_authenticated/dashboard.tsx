@@ -11,6 +11,7 @@ import { SupervisorOverview } from "@/components/assignments/SupervisorOverview"
 import { UrgentBanners } from "@/components/announcements/UrgentBanners";
 import { WelcomeGuideCard } from "@/components/WelcomeGuideCard";
 import { MarketingDashboardCards } from "@/components/marketing/MarketingDashboardCards";
+import { StakeholderDashboardCards } from "@/components/stakeholders/StakeholderDashboardCards";
 import { QuickShortcuts } from "@/components/resources/QuickShortcuts";
 import { ContentBalanceMiniCard } from "@/components/marketing/ContentBalanceMiniCard";
 import { PerformanceReminderCard } from "@/components/marketing/PerformanceReminderCard";
@@ -240,6 +241,7 @@ function DashboardPage() {
       )}
 
       <UrgentBanners />
+      <StakeholderDashboardCards />
       <MarketingDashboardCards />
       <PerformanceReminderCard />
       <LetterReviewCard />
