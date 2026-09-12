@@ -64,6 +64,8 @@ import { Route as AuthenticatedResourcesPopularRouteImport } from './routes/_aut
 import { Route as AuthenticatedSettingsOrganizationRouteImport } from './routes/_authenticated/settings.organization'
 import { Route as AuthenticatedSpeakersIndexRouteImport } from './routes/_authenticated/speakers.index'
 import { Route as AuthenticatedSpeakersIdRouteImport } from './routes/_authenticated/speakers.$id'
+import { Route as AuthenticatedStakeholdersIndexRouteImport } from './routes/_authenticated/stakeholders.index'
+import { Route as AuthenticatedStakeholdersIndividualsRouteImport } from './routes/_authenticated/stakeholders.individuals'
 import { Route as AuthenticatedMentorAssignmentsIndexRouteImport } from './routes/_authenticated/mentor.assignments.index'
 import { Route as AuthenticatedMentorAssignmentsIdRouteImport } from './routes/_authenticated/mentor.assignments.$id'
 import { Route as AuthenticatedReportsHoldingsIndexRouteImport } from './routes/_authenticated/reports.holdings.index'
@@ -377,6 +379,18 @@ const AuthenticatedSpeakersIdRoute = AuthenticatedSpeakersIdRouteImport.update({
   path: '/speakers/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedStakeholdersIndexRoute =
+  AuthenticatedStakeholdersIndexRouteImport.update({
+    id: '/stakeholders/',
+    path: '/stakeholders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakeholdersIndividualsRoute =
+  AuthenticatedStakeholdersIndividualsRouteImport.update({
+    id: '/stakeholders/individuals',
+    path: '/stakeholders/individuals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMentorAssignmentsIndexRoute =
   AuthenticatedMentorAssignmentsIndexRouteImport.update({
     id: '/mentor/assignments/',
@@ -462,6 +476,7 @@ export interface FileRoutesByFullPath {
   '/resources/popular': typeof AuthenticatedResourcesPopularRoute
   '/settings/organization': typeof AuthenticatedSettingsOrganizationRoute
   '/speakers/$id': typeof AuthenticatedSpeakersIdRoute
+  '/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsRoute
   '/companies/': typeof AuthenticatedCompaniesIndexRoute
   '/events/': typeof AuthenticatedEventsIndexRoute
   '/fund-requests/': typeof AuthenticatedFundRequestsIndexRoute
@@ -469,6 +484,7 @@ export interface FileRoutesByFullPath {
   '/meetings/': typeof AuthenticatedMeetingsIndexRoute
   '/resources/': typeof AuthenticatedResourcesIndexRoute
   '/speakers/': typeof AuthenticatedSpeakersIndexRoute
+  '/stakeholders/': typeof AuthenticatedStakeholdersIndexRoute
   '/mentor/assignments/$id': typeof AuthenticatedMentorAssignmentsIdRoute
   '/reports/holdings/$id': typeof AuthenticatedReportsHoldingsIdRoute
   '/warnings/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
@@ -523,6 +539,7 @@ export interface FileRoutesByTo {
   '/resources/popular': typeof AuthenticatedResourcesPopularRoute
   '/settings/organization': typeof AuthenticatedSettingsOrganizationRoute
   '/speakers/$id': typeof AuthenticatedSpeakersIdRoute
+  '/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsRoute
   '/companies': typeof AuthenticatedCompaniesIndexRoute
   '/events': typeof AuthenticatedEventsIndexRoute
   '/fund-requests': typeof AuthenticatedFundRequestsIndexRoute
@@ -530,6 +547,7 @@ export interface FileRoutesByTo {
   '/meetings': typeof AuthenticatedMeetingsIndexRoute
   '/resources': typeof AuthenticatedResourcesIndexRoute
   '/speakers': typeof AuthenticatedSpeakersIndexRoute
+  '/stakeholders': typeof AuthenticatedStakeholdersIndexRoute
   '/mentor/assignments/$id': typeof AuthenticatedMentorAssignmentsIdRoute
   '/reports/holdings/$id': typeof AuthenticatedReportsHoldingsIdRoute
   '/warnings/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
@@ -587,6 +605,7 @@ export interface FileRoutesById {
   '/_authenticated/resources/popular': typeof AuthenticatedResourcesPopularRoute
   '/_authenticated/settings/organization': typeof AuthenticatedSettingsOrganizationRoute
   '/_authenticated/speakers/$id': typeof AuthenticatedSpeakersIdRoute
+  '/_authenticated/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsRoute
   '/_authenticated/companies/': typeof AuthenticatedCompaniesIndexRoute
   '/_authenticated/events/': typeof AuthenticatedEventsIndexRoute
   '/_authenticated/fund-requests/': typeof AuthenticatedFundRequestsIndexRoute
@@ -594,6 +613,7 @@ export interface FileRoutesById {
   '/_authenticated/meetings/': typeof AuthenticatedMeetingsIndexRoute
   '/_authenticated/resources/': typeof AuthenticatedResourcesIndexRoute
   '/_authenticated/speakers/': typeof AuthenticatedSpeakersIndexRoute
+  '/_authenticated/stakeholders/': typeof AuthenticatedStakeholdersIndexRoute
   '/_authenticated/mentor/assignments/$id': typeof AuthenticatedMentorAssignmentsIdRoute
   '/_authenticated/reports/holdings/$id': typeof AuthenticatedReportsHoldingsIdRoute
   '/_authenticated/warnings_/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
@@ -651,6 +671,7 @@ export interface FileRouteTypes {
     | '/resources/popular'
     | '/settings/organization'
     | '/speakers/$id'
+    | '/stakeholders/individuals'
     | '/companies/'
     | '/events/'
     | '/fund-requests/'
@@ -658,6 +679,7 @@ export interface FileRouteTypes {
     | '/meetings/'
     | '/resources/'
     | '/speakers/'
+    | '/stakeholders/'
     | '/mentor/assignments/$id'
     | '/reports/holdings/$id'
     | '/warnings/proposals/$id'
@@ -712,6 +734,7 @@ export interface FileRouteTypes {
     | '/resources/popular'
     | '/settings/organization'
     | '/speakers/$id'
+    | '/stakeholders/individuals'
     | '/companies'
     | '/events'
     | '/fund-requests'
@@ -719,6 +742,7 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/resources'
     | '/speakers'
+    | '/stakeholders'
     | '/mentor/assignments/$id'
     | '/reports/holdings/$id'
     | '/warnings/proposals/$id'
@@ -775,6 +799,7 @@ export interface FileRouteTypes {
     | '/_authenticated/resources/popular'
     | '/_authenticated/settings/organization'
     | '/_authenticated/speakers/$id'
+    | '/_authenticated/stakeholders/individuals'
     | '/_authenticated/companies/'
     | '/_authenticated/events/'
     | '/_authenticated/fund-requests/'
@@ -782,6 +807,7 @@ export interface FileRouteTypes {
     | '/_authenticated/meetings/'
     | '/_authenticated/resources/'
     | '/_authenticated/speakers/'
+    | '/_authenticated/stakeholders/'
     | '/_authenticated/mentor/assignments/$id'
     | '/_authenticated/reports/holdings/$id'
     | '/_authenticated/warnings_/proposals/$id'
@@ -1186,6 +1212,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSpeakersIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/stakeholders/': {
+      id: '/_authenticated/stakeholders/'
+      path: '/stakeholders'
+      fullPath: '/stakeholders/'
+      preLoaderRoute: typeof AuthenticatedStakeholdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stakeholders/individuals': {
+      id: '/_authenticated/stakeholders/individuals'
+      path: '/stakeholders/individuals'
+      fullPath: '/stakeholders/individuals'
+      preLoaderRoute: typeof AuthenticatedStakeholdersIndividualsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/mentor/assignments/': {
       id: '/_authenticated/mentor/assignments/'
       path: '/mentor/assignments'
@@ -1289,12 +1329,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReportsWorkloadRoute: typeof AuthenticatedReportsWorkloadRoute
   AuthenticatedSettingsOrganizationRoute: typeof AuthenticatedSettingsOrganizationRoute
   AuthenticatedSpeakersIdRoute: typeof AuthenticatedSpeakersIdRoute
+  AuthenticatedStakeholdersIndividualsRoute: typeof AuthenticatedStakeholdersIndividualsRoute
   AuthenticatedCompaniesIndexRoute: typeof AuthenticatedCompaniesIndexRoute
   AuthenticatedEventsIndexRoute: typeof AuthenticatedEventsIndexRoute
   AuthenticatedFundRequestsIndexRoute: typeof AuthenticatedFundRequestsIndexRoute
   AuthenticatedLettersIndexRoute: typeof AuthenticatedLettersIndexRoute
   AuthenticatedMeetingsIndexRoute: typeof AuthenticatedMeetingsIndexRoute
   AuthenticatedSpeakersIndexRoute: typeof AuthenticatedSpeakersIndexRoute
+  AuthenticatedStakeholdersIndexRoute: typeof AuthenticatedStakeholdersIndexRoute
   AuthenticatedMentorAssignmentsIdRoute: typeof AuthenticatedMentorAssignmentsIdRoute
   AuthenticatedReportsHoldingsIdRoute: typeof AuthenticatedReportsHoldingsIdRoute
   AuthenticatedWarningsProposalsIdRoute: typeof AuthenticatedWarningsProposalsIdRoute
@@ -1346,12 +1388,15 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsOrganizationRoute:
     AuthenticatedSettingsOrganizationRoute,
   AuthenticatedSpeakersIdRoute: AuthenticatedSpeakersIdRoute,
+  AuthenticatedStakeholdersIndividualsRoute:
+    AuthenticatedStakeholdersIndividualsRoute,
   AuthenticatedCompaniesIndexRoute: AuthenticatedCompaniesIndexRoute,
   AuthenticatedEventsIndexRoute: AuthenticatedEventsIndexRoute,
   AuthenticatedFundRequestsIndexRoute: AuthenticatedFundRequestsIndexRoute,
   AuthenticatedLettersIndexRoute: AuthenticatedLettersIndexRoute,
   AuthenticatedMeetingsIndexRoute: AuthenticatedMeetingsIndexRoute,
   AuthenticatedSpeakersIndexRoute: AuthenticatedSpeakersIndexRoute,
+  AuthenticatedStakeholdersIndexRoute: AuthenticatedStakeholdersIndexRoute,
   AuthenticatedMentorAssignmentsIdRoute: AuthenticatedMentorAssignmentsIdRoute,
   AuthenticatedReportsHoldingsIdRoute: AuthenticatedReportsHoldingsIdRoute,
   AuthenticatedWarningsProposalsIdRoute: AuthenticatedWarningsProposalsIdRoute,

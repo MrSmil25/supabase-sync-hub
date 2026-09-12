@@ -44,7 +44,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export const Route = createFileRoute("/_authenticated/stakeholders/individuals")({
+export const Route = createFileRoute("/_authenticated/stakeholders/individuals/")({
   head: () => ({
     meta: [
       { title: "Individuals — Pemangku Kepentingan" },
