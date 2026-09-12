@@ -65,11 +65,11 @@ import { Route as AuthenticatedSettingsOrganizationRouteImport } from './routes/
 import { Route as AuthenticatedSpeakersIndexRouteImport } from './routes/_authenticated/speakers.index'
 import { Route as AuthenticatedSpeakersIdRouteImport } from './routes/_authenticated/speakers.$id'
 import { Route as AuthenticatedStakeholdersIndexRouteImport } from './routes/_authenticated/stakeholders.index'
-import { Route as AuthenticatedStakeholdersIndividualsRouteImport } from './routes/_authenticated/stakeholders.individuals'
 import { Route as AuthenticatedMentorAssignmentsIndexRouteImport } from './routes/_authenticated/mentor.assignments.index'
 import { Route as AuthenticatedMentorAssignmentsIdRouteImport } from './routes/_authenticated/mentor.assignments.$id'
 import { Route as AuthenticatedReportsHoldingsIndexRouteImport } from './routes/_authenticated/reports.holdings.index'
 import { Route as AuthenticatedReportsHoldingsIdRouteImport } from './routes/_authenticated/reports.holdings.$id'
+import { Route as AuthenticatedStakeholdersIndividualsIndexRouteImport } from './routes/_authenticated/stakeholders.individuals.index'
 import { Route as AuthenticatedWarningsProposalsIndexRouteImport } from './routes/_authenticated/warnings_.proposals.index'
 import { Route as AuthenticatedWarningsProposalsIdRouteImport } from './routes/_authenticated/warnings_.proposals.$id'
 
@@ -385,12 +385,6 @@ const AuthenticatedStakeholdersIndexRoute =
     path: '/stakeholders/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedStakeholdersIndividualsRoute =
-  AuthenticatedStakeholdersIndividualsRouteImport.update({
-    id: '/stakeholders/individuals',
-    path: '/stakeholders/individuals',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedMentorAssignmentsIndexRoute =
   AuthenticatedMentorAssignmentsIndexRouteImport.update({
     id: '/mentor/assignments/',
@@ -413,6 +407,12 @@ const AuthenticatedReportsHoldingsIdRoute =
   AuthenticatedReportsHoldingsIdRouteImport.update({
     id: '/reports/holdings/$id',
     path: '/reports/holdings/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakeholdersIndividualsIndexRoute =
+  AuthenticatedStakeholdersIndividualsIndexRouteImport.update({
+    id: '/stakeholders/individuals/',
+    path: '/stakeholders/individuals/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedWarningsProposalsIndexRoute =
@@ -476,7 +476,6 @@ export interface FileRoutesByFullPath {
   '/resources/popular': typeof AuthenticatedResourcesPopularRoute
   '/settings/organization': typeof AuthenticatedSettingsOrganizationRoute
   '/speakers/$id': typeof AuthenticatedSpeakersIdRoute
-  '/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsRoute
   '/companies/': typeof AuthenticatedCompaniesIndexRoute
   '/events/': typeof AuthenticatedEventsIndexRoute
   '/fund-requests/': typeof AuthenticatedFundRequestsIndexRoute
@@ -490,6 +489,7 @@ export interface FileRoutesByFullPath {
   '/warnings/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
   '/mentor/assignments/': typeof AuthenticatedMentorAssignmentsIndexRoute
   '/reports/holdings/': typeof AuthenticatedReportsHoldingsIndexRoute
+  '/stakeholders/individuals/': typeof AuthenticatedStakeholdersIndividualsIndexRoute
   '/warnings/proposals/': typeof AuthenticatedWarningsProposalsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -539,7 +539,6 @@ export interface FileRoutesByTo {
   '/resources/popular': typeof AuthenticatedResourcesPopularRoute
   '/settings/organization': typeof AuthenticatedSettingsOrganizationRoute
   '/speakers/$id': typeof AuthenticatedSpeakersIdRoute
-  '/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsRoute
   '/companies': typeof AuthenticatedCompaniesIndexRoute
   '/events': typeof AuthenticatedEventsIndexRoute
   '/fund-requests': typeof AuthenticatedFundRequestsIndexRoute
@@ -553,6 +552,7 @@ export interface FileRoutesByTo {
   '/warnings/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
   '/mentor/assignments': typeof AuthenticatedMentorAssignmentsIndexRoute
   '/reports/holdings': typeof AuthenticatedReportsHoldingsIndexRoute
+  '/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsIndexRoute
   '/warnings/proposals': typeof AuthenticatedWarningsProposalsIndexRoute
 }
 export interface FileRoutesById {
@@ -605,7 +605,6 @@ export interface FileRoutesById {
   '/_authenticated/resources/popular': typeof AuthenticatedResourcesPopularRoute
   '/_authenticated/settings/organization': typeof AuthenticatedSettingsOrganizationRoute
   '/_authenticated/speakers/$id': typeof AuthenticatedSpeakersIdRoute
-  '/_authenticated/stakeholders/individuals': typeof AuthenticatedStakeholdersIndividualsRoute
   '/_authenticated/companies/': typeof AuthenticatedCompaniesIndexRoute
   '/_authenticated/events/': typeof AuthenticatedEventsIndexRoute
   '/_authenticated/fund-requests/': typeof AuthenticatedFundRequestsIndexRoute
@@ -619,6 +618,7 @@ export interface FileRoutesById {
   '/_authenticated/warnings_/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
   '/_authenticated/mentor/assignments/': typeof AuthenticatedMentorAssignmentsIndexRoute
   '/_authenticated/reports/holdings/': typeof AuthenticatedReportsHoldingsIndexRoute
+  '/_authenticated/stakeholders/individuals/': typeof AuthenticatedStakeholdersIndividualsIndexRoute
   '/_authenticated/warnings_/proposals/': typeof AuthenticatedWarningsProposalsIndexRoute
 }
 export interface FileRouteTypes {
@@ -671,7 +671,6 @@ export interface FileRouteTypes {
     | '/resources/popular'
     | '/settings/organization'
     | '/speakers/$id'
-    | '/stakeholders/individuals'
     | '/companies/'
     | '/events/'
     | '/fund-requests/'
@@ -685,6 +684,7 @@ export interface FileRouteTypes {
     | '/warnings/proposals/$id'
     | '/mentor/assignments/'
     | '/reports/holdings/'
+    | '/stakeholders/individuals/'
     | '/warnings/proposals/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -734,7 +734,6 @@ export interface FileRouteTypes {
     | '/resources/popular'
     | '/settings/organization'
     | '/speakers/$id'
-    | '/stakeholders/individuals'
     | '/companies'
     | '/events'
     | '/fund-requests'
@@ -748,6 +747,7 @@ export interface FileRouteTypes {
     | '/warnings/proposals/$id'
     | '/mentor/assignments'
     | '/reports/holdings'
+    | '/stakeholders/individuals'
     | '/warnings/proposals'
   id:
     | '__root__'
@@ -799,7 +799,6 @@ export interface FileRouteTypes {
     | '/_authenticated/resources/popular'
     | '/_authenticated/settings/organization'
     | '/_authenticated/speakers/$id'
-    | '/_authenticated/stakeholders/individuals'
     | '/_authenticated/companies/'
     | '/_authenticated/events/'
     | '/_authenticated/fund-requests/'
@@ -813,6 +812,7 @@ export interface FileRouteTypes {
     | '/_authenticated/warnings_/proposals/$id'
     | '/_authenticated/mentor/assignments/'
     | '/_authenticated/reports/holdings/'
+    | '/_authenticated/stakeholders/individuals/'
     | '/_authenticated/warnings_/proposals/'
   fileRoutesById: FileRoutesById
 }
@@ -1219,13 +1219,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStakeholdersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/stakeholders/individuals': {
-      id: '/_authenticated/stakeholders/individuals'
-      path: '/stakeholders/individuals'
-      fullPath: '/stakeholders/individuals'
-      preLoaderRoute: typeof AuthenticatedStakeholdersIndividualsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/mentor/assignments/': {
       id: '/_authenticated/mentor/assignments/'
       path: '/mentor/assignments'
@@ -1252,6 +1245,13 @@ declare module '@tanstack/react-router' {
       path: '/reports/holdings/$id'
       fullPath: '/reports/holdings/$id'
       preLoaderRoute: typeof AuthenticatedReportsHoldingsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stakeholders/individuals/': {
+      id: '/_authenticated/stakeholders/individuals/'
+      path: '/stakeholders/individuals'
+      fullPath: '/stakeholders/individuals/'
+      preLoaderRoute: typeof AuthenticatedStakeholdersIndividualsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/warnings_/proposals/': {
@@ -1329,7 +1329,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReportsWorkloadRoute: typeof AuthenticatedReportsWorkloadRoute
   AuthenticatedSettingsOrganizationRoute: typeof AuthenticatedSettingsOrganizationRoute
   AuthenticatedSpeakersIdRoute: typeof AuthenticatedSpeakersIdRoute
-  AuthenticatedStakeholdersIndividualsRoute: typeof AuthenticatedStakeholdersIndividualsRoute
   AuthenticatedCompaniesIndexRoute: typeof AuthenticatedCompaniesIndexRoute
   AuthenticatedEventsIndexRoute: typeof AuthenticatedEventsIndexRoute
   AuthenticatedFundRequestsIndexRoute: typeof AuthenticatedFundRequestsIndexRoute
@@ -1342,6 +1341,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedWarningsProposalsIdRoute: typeof AuthenticatedWarningsProposalsIdRoute
   AuthenticatedMentorAssignmentsIndexRoute: typeof AuthenticatedMentorAssignmentsIndexRoute
   AuthenticatedReportsHoldingsIndexRoute: typeof AuthenticatedReportsHoldingsIndexRoute
+  AuthenticatedStakeholdersIndividualsIndexRoute: typeof AuthenticatedStakeholdersIndividualsIndexRoute
   AuthenticatedWarningsProposalsIndexRoute: typeof AuthenticatedWarningsProposalsIndexRoute
 }
 
@@ -1388,8 +1388,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsOrganizationRoute:
     AuthenticatedSettingsOrganizationRoute,
   AuthenticatedSpeakersIdRoute: AuthenticatedSpeakersIdRoute,
-  AuthenticatedStakeholdersIndividualsRoute:
-    AuthenticatedStakeholdersIndividualsRoute,
   AuthenticatedCompaniesIndexRoute: AuthenticatedCompaniesIndexRoute,
   AuthenticatedEventsIndexRoute: AuthenticatedEventsIndexRoute,
   AuthenticatedFundRequestsIndexRoute: AuthenticatedFundRequestsIndexRoute,
@@ -1404,6 +1402,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedMentorAssignmentsIndexRoute,
   AuthenticatedReportsHoldingsIndexRoute:
     AuthenticatedReportsHoldingsIndexRoute,
+  AuthenticatedStakeholdersIndividualsIndexRoute:
+    AuthenticatedStakeholdersIndividualsIndexRoute,
   AuthenticatedWarningsProposalsIndexRoute:
     AuthenticatedWarningsProposalsIndexRoute,
 }
