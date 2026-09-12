@@ -15,6 +15,13 @@ import {
   nameInitials,
 } from "@/lib/stakeholders";
 import { QuickAddWizard } from "@/components/stakeholders/QuickAddWizard";
+import {
+  LEVEL_META,
+  RELATIONSHIP_LEVELS,
+  fetchAllCompanyStatuses,
+  fetchAllIndividualStatuses,
+} from "@/lib/interactions";
+import { RelationshipBadge } from "@/components/stakeholders/RelationshipBadge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
