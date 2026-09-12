@@ -40,11 +40,13 @@ export function RelationshipBadge({
     : "Belum ada interaksi tercatat";
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="inline-flex">{badge}</span>
-      </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="inline-flex">{badge}</span>
+        </TooltipTrigger>
+        <TooltipContent>{tooltip}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
