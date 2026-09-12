@@ -70,6 +70,7 @@ import { Route as AuthenticatedMentorAssignmentsIdRouteImport } from './routes/_
 import { Route as AuthenticatedReportsHoldingsIndexRouteImport } from './routes/_authenticated/reports.holdings.index'
 import { Route as AuthenticatedReportsHoldingsIdRouteImport } from './routes/_authenticated/reports.holdings.$id'
 import { Route as AuthenticatedStakeholdersIndividualsIndexRouteImport } from './routes/_authenticated/stakeholders.individuals.index'
+import { Route as AuthenticatedStakeholdersIndividualsIdRouteImport } from './routes/_authenticated/stakeholders.individuals.$id'
 import { Route as AuthenticatedWarningsProposalsIndexRouteImport } from './routes/_authenticated/warnings_.proposals.index'
 import { Route as AuthenticatedWarningsProposalsIdRouteImport } from './routes/_authenticated/warnings_.proposals.$id'
 
@@ -415,6 +416,12 @@ const AuthenticatedStakeholdersIndividualsIndexRoute =
     path: '/stakeholders/individuals/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStakeholdersIndividualsIdRoute =
+  AuthenticatedStakeholdersIndividualsIdRouteImport.update({
+    id: '/stakeholders/individuals/$id',
+    path: '/stakeholders/individuals/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedWarningsProposalsIndexRoute =
   AuthenticatedWarningsProposalsIndexRouteImport.update({
     id: '/warnings_/proposals/',
@@ -486,6 +493,7 @@ export interface FileRoutesByFullPath {
   '/stakeholders/': typeof AuthenticatedStakeholdersIndexRoute
   '/mentor/assignments/$id': typeof AuthenticatedMentorAssignmentsIdRoute
   '/reports/holdings/$id': typeof AuthenticatedReportsHoldingsIdRoute
+  '/stakeholders/individuals/$id': typeof AuthenticatedStakeholdersIndividualsIdRoute
   '/warnings/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
   '/mentor/assignments/': typeof AuthenticatedMentorAssignmentsIndexRoute
   '/reports/holdings/': typeof AuthenticatedReportsHoldingsIndexRoute
@@ -549,6 +557,7 @@ export interface FileRoutesByTo {
   '/stakeholders': typeof AuthenticatedStakeholdersIndexRoute
   '/mentor/assignments/$id': typeof AuthenticatedMentorAssignmentsIdRoute
   '/reports/holdings/$id': typeof AuthenticatedReportsHoldingsIdRoute
+  '/stakeholders/individuals/$id': typeof AuthenticatedStakeholdersIndividualsIdRoute
   '/warnings/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
   '/mentor/assignments': typeof AuthenticatedMentorAssignmentsIndexRoute
   '/reports/holdings': typeof AuthenticatedReportsHoldingsIndexRoute
@@ -615,6 +624,7 @@ export interface FileRoutesById {
   '/_authenticated/stakeholders/': typeof AuthenticatedStakeholdersIndexRoute
   '/_authenticated/mentor/assignments/$id': typeof AuthenticatedMentorAssignmentsIdRoute
   '/_authenticated/reports/holdings/$id': typeof AuthenticatedReportsHoldingsIdRoute
+  '/_authenticated/stakeholders/individuals/$id': typeof AuthenticatedStakeholdersIndividualsIdRoute
   '/_authenticated/warnings_/proposals/$id': typeof AuthenticatedWarningsProposalsIdRoute
   '/_authenticated/mentor/assignments/': typeof AuthenticatedMentorAssignmentsIndexRoute
   '/_authenticated/reports/holdings/': typeof AuthenticatedReportsHoldingsIndexRoute
@@ -681,6 +691,7 @@ export interface FileRouteTypes {
     | '/stakeholders/'
     | '/mentor/assignments/$id'
     | '/reports/holdings/$id'
+    | '/stakeholders/individuals/$id'
     | '/warnings/proposals/$id'
     | '/mentor/assignments/'
     | '/reports/holdings/'
@@ -744,6 +755,7 @@ export interface FileRouteTypes {
     | '/stakeholders'
     | '/mentor/assignments/$id'
     | '/reports/holdings/$id'
+    | '/stakeholders/individuals/$id'
     | '/warnings/proposals/$id'
     | '/mentor/assignments'
     | '/reports/holdings'
@@ -809,6 +821,7 @@ export interface FileRouteTypes {
     | '/_authenticated/stakeholders/'
     | '/_authenticated/mentor/assignments/$id'
     | '/_authenticated/reports/holdings/$id'
+    | '/_authenticated/stakeholders/individuals/$id'
     | '/_authenticated/warnings_/proposals/$id'
     | '/_authenticated/mentor/assignments/'
     | '/_authenticated/reports/holdings/'
@@ -1254,6 +1267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStakeholdersIndividualsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/stakeholders/individuals/$id': {
+      id: '/_authenticated/stakeholders/individuals/$id'
+      path: '/stakeholders/individuals/$id'
+      fullPath: '/stakeholders/individuals/$id'
+      preLoaderRoute: typeof AuthenticatedStakeholdersIndividualsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/warnings_/proposals/': {
       id: '/_authenticated/warnings_/proposals/'
       path: '/warnings/proposals'
@@ -1338,6 +1358,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedStakeholdersIndexRoute: typeof AuthenticatedStakeholdersIndexRoute
   AuthenticatedMentorAssignmentsIdRoute: typeof AuthenticatedMentorAssignmentsIdRoute
   AuthenticatedReportsHoldingsIdRoute: typeof AuthenticatedReportsHoldingsIdRoute
+  AuthenticatedStakeholdersIndividualsIdRoute: typeof AuthenticatedStakeholdersIndividualsIdRoute
   AuthenticatedWarningsProposalsIdRoute: typeof AuthenticatedWarningsProposalsIdRoute
   AuthenticatedMentorAssignmentsIndexRoute: typeof AuthenticatedMentorAssignmentsIndexRoute
   AuthenticatedReportsHoldingsIndexRoute: typeof AuthenticatedReportsHoldingsIndexRoute
@@ -1397,6 +1418,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedStakeholdersIndexRoute: AuthenticatedStakeholdersIndexRoute,
   AuthenticatedMentorAssignmentsIdRoute: AuthenticatedMentorAssignmentsIdRoute,
   AuthenticatedReportsHoldingsIdRoute: AuthenticatedReportsHoldingsIdRoute,
+  AuthenticatedStakeholdersIndividualsIdRoute:
+    AuthenticatedStakeholdersIndividualsIdRoute,
   AuthenticatedWarningsProposalsIdRoute: AuthenticatedWarningsProposalsIdRoute,
   AuthenticatedMentorAssignmentsIndexRoute:
     AuthenticatedMentorAssignmentsIndexRoute,
