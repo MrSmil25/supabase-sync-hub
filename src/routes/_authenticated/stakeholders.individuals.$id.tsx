@@ -33,6 +33,13 @@ import {
   waLink,
 } from "@/lib/stakeholders";
 import { supabase } from "@/lib/supabase-external";
+import {
+  fetchIndividualInteractions,
+  fetchIndividualStatus,
+} from "@/lib/interactions";
+import { RelationshipBadge } from "@/components/stakeholders/RelationshipBadge";
+import { LogInteractionButton } from "@/components/stakeholders/LogInteractionButton";
+import { InteractionTimeline } from "@/components/stakeholders/InteractionTimeline";
 import { IndividualEditDialog } from "@/components/stakeholders/IndividualEditDialog";
 import { AffiliationFormDialog } from "@/components/stakeholders/AffiliationFormDialog";
 import { Badge } from "@/components/ui/badge";
