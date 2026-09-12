@@ -1,12 +1,20 @@
 # Roadmap
 
-- [x] Skema content_performance + view: sudah ada di database eksternal, tidak diubah
-- [x] Sidebar: menu "Performa Konten" sudah ada di MARKETING setelah Content Planner
-- [x] Halaman /content-performance: Tab Dashboard Pola (insight otomatis, 4 grafik recharts, konten terbaik, filter tanggal+platform)
-- [x] Tab Catatan: kartu kuning menunggu dicatat, tabel + search/filter, menu titik-tiga Edit/Arsipkan, modal input 4 langkah
-- [x] Dashboard utama: kartu "Konten belum dicatat: N" (PerformanceReminderCard, tersembunyi jika 0)
-- [x] Verifikasi: typecheck bersih, build OK, route aktif (redirect login sesuai auth gate)
-- [x] Logo My Room asli terpasang di layar pembuka, header login, kartu login, dan favicon
+## Pemangku Kepentingan (sedang dikerjakan)
+- [x] Salin repo MrSmil25/ksatria ke project ini + hubungkan GitHub connector
+- [ ] Perbaiki error tipe di src/lib/stakeholders.ts (contentType upload)
+- [ ] Sidebar: section PEMANGKU KEPENTINGAN (/stakeholders, /stakeholders/individuals)
+- [ ] Halaman /stakeholders: ringkasan, filter, grid kartu unified companies+individuals
+- [ ] Halaman /stakeholders/individuals: tabel + filter + arsip
+- [ ] Halaman /stakeholders/individuals/:id: detail (Tentang, Afiliasi, Kartu Nama, Riwayat)
+- [ ] Modal wizard "+ Tambah Cepat" (perusahaan singkat + individual 7 langkah, deteksi duplikat)
+- [ ] Dialog edit individual + dialog tambah afiliasi
+- [ ] Dashboard: kartu minggu ini + tanpa PIC (Kadiv/BPH)
+- [ ] Verifikasi: build OK + cek preview
 
-## Catatan terbuka (menunggu user)
-- Jika data tidak muncul setelah login: kemungkinan GRANT ke role `authenticated` belum ada di database eksternal — user perlu menjalankan SQL GRANT di SQL editor Supabase mereka.
+## Selesai sebelumnya
+- [x] Skema content_performance + view
+- [x] Sidebar: menu "Performa Konten"
+- [x] Halaman /content-performance + Tab Catatan
+- [x] Dashboard: PerformanceReminderCard
+- [x] Logo My Room terpasang

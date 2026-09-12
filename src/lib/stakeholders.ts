@@ -315,7 +315,7 @@ export async function uploadBusinessCard(file: File): Promise<string> {
   const path = `${crypto.randomUUID()}.${ext}`;
   const { error } = await supabase.storage.from("business-cards").upload(path, file, {
     upsert: false,
-    contentType: file.type || undefined,
+    ...(file.type ? { contentType: file.type } : {}),
   });
   if (error) throw error;
   const { data } = supabase.storage.from("business-cards").getPublicUrl(path);
