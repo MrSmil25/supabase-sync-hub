@@ -156,6 +156,7 @@ function CompanyDetailPage() {
           <TabsTrigger value="kontak">Kontak</TabsTrigger>
           <TabsTrigger value="deal">Deal</TabsTrigger>
           <TabsTrigger value="mou">MoU</TabsTrigger>
+          <TabsTrigger value="interaksi">Log Interaksi</TabsTrigger>
         </TabsList>
 
         <TabsContent value="kontak" className="space-y-4">
